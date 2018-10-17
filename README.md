@@ -1,10 +1,10 @@
 # Isaarg
 
 ## Description
-A simple C++ header-only library to handle arguments.
+A simple, header-only C++ library for parameters management.
 
 ## Requirements
-It needs __string_view__ and __optional__ from the standard library. So it requires __C++ 17__, so if you don't have them, maybe you can use the experimental version of an older version of the std if you have them, or fork it to use alternatives (boost have optional for example).
+C++17 __string_view__ and __optional__ classes from the STD library are needed. One can also use an older STD version with an experimental implementation. Another solution is to use alternatives, like optionnal implementation from boost.
 
 ## Terminology used in the library
 In the library i separate arguments in 3 categories:
@@ -27,8 +27,8 @@ First create an instance of __Isaag::Args__ with argc and argv as arguments (int
 
 
 
-## How do i use this lib in my projet?
+## How do I use this lib in my projet?
 Simply add the file __src/Isaarg.hpp__ to your include path and inclue the file file in you project, this is a header-only library this is all it needs to work.
 
 ## Example
-There is several example of how to use the library in the file __src/main.cpp__.
+There are several examples of how to use the library in the file __src/main.cpp__.
