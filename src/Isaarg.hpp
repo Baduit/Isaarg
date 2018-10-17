@@ -6,8 +6,6 @@
 #include <algorithm>
 #include <map>
 
-// to do remplacer tout les string en argument par des templates pour pouvoir prendre des string_view en paramètre par exemple
-
 namespace Isaarg
 {
 
@@ -19,29 +17,24 @@ using Options = std::map<std::string_view, std::vector<std::string_view>>;
 // flag == one character (without counting the -) can be chained but can't use the next value(s), example -A => A, -kA => k and A
 // option == one or several character, cannot be chained but can use the next value(s) begin with -- example: --verbose
 
-// handle raw args
-
 namespace Utils
 {
 
-template <typename S>
-bool    isFlag(const S& str)
+bool    isFlag(std::string_view str)
 {
     if (str.size() >= 2 && str[0] == '-' && str[1] != '-')
         return true;
     return false;
 }
 
-template <typename S>
-bool    isOption(const S& str)
+bool    isOption(std::string_view str)
 {
     if (str.size() >= 3 && str[0] == '-' && str[1] == '-')
         return true;
     return false;
 }
 
-template <typename S>
-bool    isValue(const S& str)
+bool    isValue(std::string_view str)
 {
     if (!isOption(str) && !isFlag(str))
         return true;
@@ -116,17 +109,17 @@ class Args
         const Flags&        getFlags() const { return _flags; }
         const Options&      getOPtions() const { return _options; }
 
-        const std::string_view& operator[](std::size_t index)
+        std::string_view operator[](std::size_t index)
         {
             return _argv[index];
         }
 
-        std::optional<std::string_view> operator[](const std::string& name)
+        std::optional<std::string_view> operator[](std::string_view name)
         {
             return getOptionValue(name);
         }
 
-        bool valueExist(const std::string& value) const
+        bool valueExist(std::string_view value) const
         {
             return std::find(_argv.cbegin(), _argv.cend(), value) != _argv.cend() ? true : false;
         }
@@ -137,13 +130,13 @@ class Args
         }
 
         // dp not put the -- at the beginning of the string
-        bool optionExist(const std::string& name) const
+        bool optionExist(std::string_view name) const
         {
             return _options.find(name) != _options.cend() ? true : false;
         }
 
         // dp not put the -- at the beginning of the string
-        std::optional<std::string_view> getOptionValue(const std::string& name)
+        std::optional<std::string_view> getOptionValue(std::string_view name)
         {
             std::optional<std::string_view> value;
 
@@ -157,7 +150,7 @@ class Args
         }
 
         // dp not put the -- at the beginning of the string
-        std::optional<std::vector<std::string_view>> getOptionValues(const std::string& name)
+        std::optional<std::vector<std::string_view>> getOptionValues(std::string_view name)
         {
             std::optional<std::vector<std::string_view>> values;
 
